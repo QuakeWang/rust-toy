@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-    "variables"
+    "variables",
+    "basic-types"
 ]
