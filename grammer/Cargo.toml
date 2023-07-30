@@ -2,5 +2,6 @@
 
 members = [
     "variables",
-    "basic-types"
+    "basic-types",
+    "struct-enum"
 ]
