@@ -3,5 +3,6 @@
 members = [
     "variables",
     "basic-types",
-    "struct-enum"
+    "struct-enum",
+    "control-flow"
 ]
