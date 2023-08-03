@@ -1,8 +1,0 @@
-[workspace]
-
-members = [
-    "variables",
-    "basic-types",
-    "struct-enum",
-    "control-flow"
-]
