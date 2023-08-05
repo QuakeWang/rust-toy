@@ -8,7 +8,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Fetching url: {}", url);
 
     let body = reqwest::blocking::get(url)?.text()?;
-    
+
     println!("Converting html to markdown...");
     let md = html2md::parse_html(&body);
 
