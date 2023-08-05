@@ -21,8 +21,8 @@ fn variable_deconvolution() {
     b = true;
     assert_eq!(a, b);
 
-     // 解构式赋值
-     struct Struct {
+    // 解构式赋值
+    struct Struct {
         e: i32,
     }
 
@@ -45,7 +45,6 @@ fn shadowing() {
     }
 
     println!("The value of x is {}", x);
-   
 }
 
 fn main() {
