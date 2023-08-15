@@ -1,0 +1,29 @@
+[package]
+name = "string"
+version = "0.1.0"
+edition = "2021"
+
+[[examples]]
+path = "examples/slice.rs"
+
+[[examples]]
+path = "examples/transform.rs"
+
+[[examples]]
+path = "examples/push.rs"
+
+[[examples]]
+path = "examples/insert.rs"
+
+[[examples]]
+path = "examples/replace.rs"
+
+[[examples]]
+path = "examples/delete.rs"
+
+[[examples]]
+path = "examples/concatenate.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

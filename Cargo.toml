@@ -5,6 +5,7 @@ members = [
     "grammar/basic-types",
     "grammar/struct-enum",
     "grammar/control-flow",
+    "grammar/string",
     
     "exercise/scrape_url",
     "exercise/httpie"
