@@ -6,6 +6,7 @@ members = [
     "grammar/struct-enum",
     "grammar/control-flow",
     "grammar/string",
+    "grammar/tuple",
     
     "exercise/scrape_url",
     "exercise/httpie"
