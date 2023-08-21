@@ -7,6 +7,7 @@ members = [
     "grammar/control-flow",
     "grammar/string",
     "grammar/tuple",
+    "grammar/pattern-matching",
     
     "exercise/scrape_url",
     "exercise/httpie"

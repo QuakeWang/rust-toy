@@ -1,0 +1,20 @@
+[package]
+name = "pattern-matching"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[examples]]
+path = "examples/01_match.rs"
+
+[[examples]]
+path = "examples/02_ip.rs"
+
+[[examples]]
+path = "examples/03_pattern-binding.rs"
+
+[[examples]]
+path = "examples/04_match-var.rs"
+
+[dependencies]
