@@ -1,0 +1,24 @@
+[package]
+name = "trait-demo"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[examples]]
+path = "examples/summary.rs"
+
+[[examples]]
+path = "examples/add.rs"
+
+[[examples]]
+path = "examples/file.rs"
+
+[[examples]]
+path = "examples/write.rs"
+
+[[examples]]
+path = "examples/parse.rs"
+
+[dependencies]
+regex = "1.9.3"

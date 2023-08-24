@@ -10,6 +10,7 @@ members = [
     "grammar/pattern-matching",
     "grammar/method",
     "grammar/generic",
+    "grammar/trait-demo",
 
     "exercise/scrape_url",
     "exercise/httpie"

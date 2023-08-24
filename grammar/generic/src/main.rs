@@ -22,7 +22,7 @@ impl<R> MyReader<R> where R: Read {
 }
 
 fn main() {
-    let f = File::open("/etc/hots").unwrap();
+    let f = File::open("Cargo.toml").unwrap();
     let mut reader = MyReader::new(BufReader::new(f));
 
     let size = reader.process().unwrap();
