@@ -9,6 +9,7 @@ members = [
     "grammar/tuple",
     "grammar/pattern-matching",
     "grammar/method",
+    "grammar/generic",
 
     "exercise/scrape_url",
     "exercise/httpie"
