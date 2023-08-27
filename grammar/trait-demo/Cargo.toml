@@ -20,5 +20,18 @@ path = "examples/write.rs"
 [[examples]]
 path = "examples/parse.rs"
 
+[[examples]]
+path = "examples/clone_trait.rs"
+
+[[examples]]
+path = "examples/copy_trait.rs"
+
+[[examples]]
+path = "examples/drop_trait.rs"
+
+
+[[examples]]
+path = "examples/sync_trait.rs"
+
 [dependencies]
 regex = "1.9.3"
