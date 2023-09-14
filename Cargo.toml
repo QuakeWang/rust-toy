@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+
     "grammar/variables",
     "grammar/basic-types",
     "grammar/struct-enum",
@@ -14,5 +15,7 @@ members = [
     "grammar/smart-pointers",
 
     "exercise/scrape_url",
-    "exercise/httpie"
+    "exercise/httpie",
+
+    "advanced/generics"
 ]
