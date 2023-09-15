@@ -11,7 +11,7 @@ impl BufBuilder {
     }
 }
 
-// impl Debug tarit for print string
+// impl Debug trait for print string
 impl fmt::Debug for BufBuilder {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", String::from_utf8_lossy(&self.buf))

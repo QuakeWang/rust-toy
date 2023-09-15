@@ -24,14 +24,16 @@ path = "examples/parse.rs"
 path = "examples/clone_trait.rs"
 
 [[examples]]
-path = "examples/copy_trait.rs"
+path = "examples/animal.rs"
 
 [[examples]]
 path = "examples/drop_trait.rs"
 
-
 [[examples]]
 path = "examples/sync_trait.rs"
+
+[[examples]]
+path = "examples/formatter.rs"
 
 [dependencies]
 regex = "1.9.3"
