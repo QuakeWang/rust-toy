@@ -16,6 +16,7 @@ members = [
 
     "exercise/scrape_url",
     "exercise/httpie",
+    "exercise/metro_encode",
 
     "advanced/generics",
     "advanced/trait_objects"
