@@ -24,17 +24,17 @@ impl<'a, 'b> Executor for Shell<'a, 'b> {
     }
 }
 
-/// Use generic parameter
+/// 使用泛型参数
 pub fn execute_generics(cmd: &impl Executor) -> Result<Option<i32>, BoxedError> {
     cmd.run()
 }
 
-/// Use trait object: &dyn T
+/// 使用 trait object: &dyn T
 pub fn execute_trait_object(cmd: &dyn Executor) -> Result<Option<i32>, BoxedError> {
     cmd.run()
 }
 
-/// Use trait object: Box<dyn T>
+/// 使用 trait object: Box<dyn T>
 pub fn execute_boxed_trait_object(cmd: Box<dyn Executor>) -> Result<Option<i32>, BoxedError> {
     cmd.run()
 }
