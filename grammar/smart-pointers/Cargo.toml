@@ -19,6 +19,18 @@ path = "src/cow2.rs"
 name = "guard"
 path = "src/guard.rs"
 
+[[bin]]
+name = "rc_dag"
+path = "src/rc_dag.rs"
+
+[[bin]]
+name = "refcell"
+path = "src/refcell.rs"
+
+[[bin]]
+name = "refcell_dag"
+path = "src/refcell_dag.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
