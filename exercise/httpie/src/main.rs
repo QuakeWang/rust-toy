@@ -1,14 +1,14 @@
-use anyhow::{ anyhow, Result };
+use anyhow::{anyhow, Result};
 use clap::Parser;
 use colored::Colorize;
 use mime::Mime;
-use reqwest::{ header, Client, Response, Url };
-use std::{ collections::HashMap, str::FromStr };
+use reqwest::{header, Client, Response, Url};
+use std::{collections::HashMap, str::FromStr};
 use syntect::{
     easy::HighlightLines,
-    highlighting::{ Style, ThemeSet },
+    highlighting::{Style, ThemeSet},
     parsing::SyntaxSet,
-    util::{ as_24_bit_terminal_escaped, LinesWithEndings },
+    util::{as_24_bit_terminal_escaped, LinesWithEndings},
 };
 
 // 以下部分用于处理 CLI
@@ -161,7 +161,9 @@ async fn main() -> Result<()> {
     // 为我们的 http 客户端添加一些缺省的 HTTP 头
     headers.insert("X-POWERED-BY", "Rust".parse()?);
     headers.insert(header::USER_AGENT, "Rust Httpie".parse()?);
-    let client = reqwest::Client::builder().default_headers(headers).build()?;
+    let client = reqwest::Client::builder()
+        .default_headers(headers)
+        .build()?;
     let result = match opts.subcmd {
         SubCommand::Get(ref args) => get(client, args).await?,
         SubCommand::Post(ref args) => post(client, args).await?,
@@ -198,14 +200,20 @@ mod tests {
     #[test]
     fn parse_kv_pair_works() {
         assert!(parse_kv_pair("a").is_err());
-        assert_eq!(parse_kv_pair("a=1").unwrap(), KvPair {
-            k: "a".into(),
-            v: "1".into(),
-        });
+        assert_eq!(
+            parse_kv_pair("a=1").unwrap(),
+            KvPair {
+                k: "a".into(),
+                v: "1".into(),
+            }
+        );
 
-        assert_eq!(parse_kv_pair("b=").unwrap(), KvPair {
-            k: "b".into(),
-            v: "".into(),
-        });
+        assert_eq!(
+            parse_kv_pair("b=").unwrap(),
+            KvPair {
+                k: "b".into(),
+                v: "".into(),
+            }
+        );
     }
 }

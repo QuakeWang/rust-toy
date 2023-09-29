@@ -16,7 +16,7 @@ struct File {
     state: FileState,
 }
 
-impl Display  for FileState {
+impl Display for FileState {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             FileState::Open => write!(f, "OPEN"),

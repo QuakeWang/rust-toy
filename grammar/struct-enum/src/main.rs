@@ -49,15 +49,30 @@ fn process_message(event: &Event) {
 }
 
 fn main() {
-    let alice = User { id: UserId(1), name: "Alice".into(), gender: Gender::Female };
-    let bob = User { id: UserId(2), name: "Bob".into(), gender: Gender::Male };
+    let alice = User {
+        id: UserId(1),
+        name: "Alice".into(),
+        gender: Gender::Female,
+    };
+    let bob = User {
+        id: UserId(2),
+        name: "Bob".into(),
+        gender: Gender::Male,
+    };
 
-    let topic = Topic { id: TopicId(1), name: "rust".into(), owner: UserId(1) };
+    let topic = Topic {
+        id: TopicId(1),
+        name: "rust".into(),
+        owner: UserId(1),
+    };
     let event1 = Event::Join((alice.id, topic.id));
     let event2 = Event::Join((bob.id, topic.id));
     let event3 = Event::Message((alice.id, topic.id, "Hello world!".into()));
 
-    println!("event1: {:?}, event2: {:?}, event3: {:?}", event1, event2, event3);
+    println!(
+        "event1: {:?}, event2: {:?}, event3: {:?}",
+        event1, event2, event3
+    );
 
     println!("\nProcess event:");
 

@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{ BufReader, Read, Result };
+use std::io::{BufReader, Read, Result};
 
 struct MyReader<R> {
     reader: R,
@@ -15,7 +15,10 @@ impl<R> MyReader<R> {
     }
 }
 
-impl<R> MyReader<R> where R: Read {
+impl<R> MyReader<R>
+where
+    R: Read,
+{
     pub fn process(&mut self) -> Result<usize> {
         self.reader.read_to_string(&mut self.buf)
     }

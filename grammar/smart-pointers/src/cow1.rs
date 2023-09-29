@@ -2,7 +2,8 @@ use std::borrow::Cow;
 
 use url::Url;
 fn main() {
-    let url = Url::parse("https://github.com/rust?page=1024&sort=desc&extra=hello%20world").unwrap();
+    let url =
+        Url::parse("https://github.com/rust?page=1024&sort=desc&extra=hello%20world").unwrap();
     let mut pairs = url.query_pairs();
 
     assert_eq!(pairs.count(), 3);

@@ -19,7 +19,10 @@ fn main() {
                 println!("point from (0, 0) move to ({}, {})", x, y);
             }
             Action::ChangeColorRGB(r, g, _) => {
-                println!("change color into '(r:{}, g:{}, b:0)', 'b' has been ignored", r, g);
+                println!(
+                    "change color into '(r:{}, g:{}, b:0)', 'b' has been ignored",
+                    r, g
+                );
             }
         }
     }

@@ -23,7 +23,7 @@ struct Get {
     url: String,
 }
 
-/// feed post with an url and optional key=value pairs. We will post the data 
+/// feed post with an url and optional key=value pairs. We will post the data
 /// as JSON, and retrieve the response for you.
 #[derive(Parser, Debug)]
 struct Post {

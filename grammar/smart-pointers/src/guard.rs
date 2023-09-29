@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use std::borrow::Cow;
 use std::collections::HashMap;
-use std::sync::{ Arc, Mutex };
+use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
@@ -15,9 +15,8 @@ lazy_static! {
 
 fn main() {
     // 用 Arc 来提供并发环境下的共享所有权（使用引用计数）
-    let metrics: Arc<Mutex<HashMap<Cow<'static, str>, usize>>> = Arc::new(
-        Mutex::new(HashMap::new())
-    );
+    let metrics: Arc<Mutex<HashMap<Cow<'static, str>, usize>>> =
+        Arc::new(Mutex::new(HashMap::new()));
     for _ in 0..32 {
         let m = metrics.clone();
         thread::spawn(move || {

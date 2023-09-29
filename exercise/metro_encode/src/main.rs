@@ -1,6 +1,5 @@
-use hex;
-use encoding::{Encoding, DecoderTrap};
 use encoding::all::GBK;
+use encoding::{DecoderTrap, Encoding};
 
 fn main() {
     let binary_codes = [

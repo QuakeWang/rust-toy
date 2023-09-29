@@ -1,7 +1,5 @@
-use trait_objects::{
-    execute_boxed_trait_object, execute_generics, execute_trait_object, Shell,
-};
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use trait_objects::{execute_boxed_trait_object, execute_generics, execute_trait_object, Shell};
 
 pub fn generics_benchmark(c: &mut Criterion) {
     c.bench_function("generics", |b| {

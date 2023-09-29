@@ -72,7 +72,7 @@ struct Get {
     url: String,
 }
 
-/// feed post with an url and optional key=value pairs. We will post the data 
+/// feed post with an url and optional key=value pairs. We will post the data
 /// as JSON, and retrieve the response for you.
 #[derive(Parser, Debug)]
 struct Post {
@@ -119,7 +119,7 @@ struct Post {
     #[clap(parse(try_from_str = parse_url))]
     url: String,
     /// HTTP 请求的 body
-    #[clap(parse(try_from_str=parse_kv_pair))]
+    #[clap(parse(try_from_str = parse_kv_pair))]
     body: Vec<KvPair>,
 }
 
@@ -201,4 +201,3 @@ async fn main() -> Result<()> {
 ## 使用过程
 
 使用 `cargo build --release`，编译出 release 版本，并将其拷贝到某个 `$PATH` 下的目录，在终端中输入 httpie 即可出现对应的提示信息。
-

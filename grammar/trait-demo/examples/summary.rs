@@ -10,7 +10,10 @@ pub struct Post {
 
 impl Summary for Post {
     fn summarize(&self) -> String {
-        format!("title: {}, author: {}, content: {}", self.title, self.author, self.content)
+        format!(
+            "title: {}, author: {}, content: {}",
+            self.title, self.author, self.content
+        )
     }
 }
 
@@ -21,14 +24,21 @@ pub struct Weibo {
 
 impl Summary for Weibo {
     fn summarize(&self) -> String {
-        format!("{} posted on Weibo: {}", self.username, self.content )
+        format!("{} posted on Weibo: {}", self.username, self.content)
     }
 }
 
 fn main() {
-    let post = Post{title: "Rust Toy".to_string(),author: "QuakeWang".to_string(), content: "Rust is awesome!!!".to_string()};
-    let weibo = Weibo{username: "QuakeWang".to_string(),content: "bad app".to_string()};
+    let post = Post {
+        title: "Rust Toy".to_string(),
+        author: "QuakeWang".to_string(),
+        content: "Rust is awesome!!!".to_string(),
+    };
+    let weibo = Weibo {
+        username: "QuakeWang".to_string(),
+        content: "bad app".to_string(),
+    };
 
-    println!("{}",post.summarize());
-    println!("{}",weibo.summarize());
+    println!("{}", post.summarize());
+    println!("{}", weibo.summarize());
 }

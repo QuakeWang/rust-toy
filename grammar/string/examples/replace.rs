@@ -1,7 +1,7 @@
 fn main() {
-   replace();
-   replacen();
-   replace_range();
+    replace();
+    replacen();
+    replace_range();
 }
 
 fn replace() {

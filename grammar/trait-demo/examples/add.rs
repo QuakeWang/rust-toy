@@ -12,7 +12,7 @@ impl Complex {
     }
 }
 
-impl Add for &Complex  {
+impl Add for &Complex {
     type Output = Complex;
 
     fn add(self, rhs: Self) -> Self::Output {

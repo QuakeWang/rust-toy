@@ -1,5 +1,5 @@
 fn main() {
-    let x= Some(5);
+    let x = Some(5);
     let y = 10;
 
     match x {

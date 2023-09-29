@@ -7,7 +7,9 @@ struct BufBuilder {
 
 impl BufBuilder {
     pub fn new() -> Self {
-        Self { buf: Vec::with_capacity(1024) }
+        Self {
+            buf: Vec::with_capacity(1024),
+        }
     }
 }
 

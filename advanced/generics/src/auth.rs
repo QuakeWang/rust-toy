@@ -1,4 +1,7 @@
-use std::{marker::PhantomData, sync::atomic::{AtomicU64, Ordering}};
+use std::{
+    marker::PhantomData,
+    sync::atomic::{AtomicU64, Ordering},
+};
 
 static NEXT_ID: AtomicU64 = AtomicU64::new(1);
 
@@ -31,8 +34,7 @@ impl Personal for Customer<PersonalPlan> {
     fn advance_feature(&self) {
         println!(
             "Dear {}(as our valuable customer {}), enjoy this advanced feature!",
-            self.name,
-            self.id
+            self.name, self.id
         );
     }
 }

@@ -1,4 +1,4 @@
-use anyhow::{ anyhow, Result };
+use anyhow::{anyhow, Result};
 use clap::Parser;
 use reqwest::Url;
 use std::str::FromStr;

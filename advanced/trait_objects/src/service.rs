@@ -14,7 +14,7 @@ pub trait Storage: Send + Sync + 'static {
     fn contains(&self, table: &str, key: &str) -> Result<bool, KvError>;
     fn del(&self, table: &str, key: &str) -> Result<Option<Value>, KvError>;
     fn get_all(&self, table: &str) -> Result<Vec<Kvpair>, KvError>;
-    fn get_iter(&self, table: &str) -> Result<Box<dyn Iterator<Item=Kvpair>>, KvError>;
+    fn get_iter(&self, table: &str) -> Result<Box<dyn Iterator<Item = Kvpair>>, KvError>;
 }
 
 // 使用 trait object，不需要泛型参数，也不需要 ServiceInner 了
