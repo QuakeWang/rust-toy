@@ -1,8 +1,9 @@
 use std::net::SocketAddr;
-use std::sync::Arc;
+use std::sync::{Arc, RwLock};
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::time::SystemTime;
-use axum::{async_trait, Json, Router, Server};
-use axum::extract::{FromRequest, RequestParts, TypedHeader};
+use axum::{AddExtensionLayer, async_trait, Json, Router, Server};
+use axum::extract::{Extension, FromRequest, RequestParts, TypedHeader};
 use axum::http::StatusCode;
 use axum::response::{Html, IntoResponse, Response};
 use axum::routing::{get, post};
@@ -14,8 +15,9 @@ use jsonwebtoken as jwt;
 use jsonwebtoken::Validation;
 
 const SECRET: &[u8] = b"deadbeef";
+static NEXT_ID: AtomicUsize = AtomicUsize::new(1);
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Todo {
     pub id: usize,
     pub user_id: usize,
@@ -46,12 +48,26 @@ struct Claims {
     exp: usize,
 }
 
+#[derive(Debug, Default, Clone)]
+struct TodoStore {
+    items: Arc<RwLock<Vec<Todo>>>,
+}
+
 #[tokio::main]
 async fn main() {
+    let store = TodoStore {
+        items: Arc::new(RwLock::new(vec![Todo {
+            id: 0,
+            user_id: 0,
+            title: "Learn Rust".to_string(),
+            completed: false,
+        }])),
+    };
     let app = Router::new()
         .route("/", get(index_handler))
         .route("/todos", get(todos_handler)
-            .post(create_todos_handler))
+            .post(create_todo_handler)
+            .layer(AddExtensionLayer::new(store)))
         .route("/login", post(login_handler));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
@@ -67,29 +83,44 @@ async fn index_handler() -> Html<&'static str> {
     Html("Hello world!")
 }
 
-async fn todos_handler() -> Json<Vec<Todo>> {
-    Json(vec![
-        Todo {
-            id: 1,
-            user_id: 1,
-            title: "Todo 1".to_string(),
-            completed: false,
-        },
-        Todo {
-            id: 2,
-            user_id: 2,
-            title: "Todo 2".to_string(),
-            completed: false,
-        },
-    ])
+async fn todos_handler(
+    claims: Claims,
+    Extension(store): Extension<TodoStore>)
+    -> Result<Json<Vec<Todo>>, HttpError> {
+    let user_id = claims.id;
+    match store.items.read() {
+        Ok(items) => Ok(Json(
+            items
+                .iter()
+                .filter(|todo| todo.user_id == user_id)
+                .map(|todo| todo.clone())
+                .collect(),
+        )),
+        Err(_) => Err(HttpError::Internal),
+    }
 }
 
-async fn create_todos_handler(claims: Claims, Json(_todo): Json<CreateTodo>) -> StatusCode {
-    println!("{:?}", claims);
-    StatusCode::CREATED
+async fn create_todo_handler(
+    claims: Claims,
+    Json(todo): Json<CreateTodo>,
+    Extension(store): Extension<TodoStore>,
+) -> Result<StatusCode, HttpError> {
+    match store.items.write() {
+        Ok(mut guard) => {
+            let todo = Todo {
+                id: get_next_id(),
+                user_id: claims.id,
+                title: todo.title,
+                completed: false,
+            };
+            guard.push(todo);
+            Ok(StatusCode::CREATED)
+        }
+        Err(_) => Err(HttpError::Internal),
+    }
 }
 
-async fn login_handler(Json(login): Json<LoginRequest>) -> Json<LoginResponse> {
+async fn login_handler(Json(_login): Json<LoginRequest>) -> Json<LoginResponse> {
     let claims = Claims {
         id: 1,
         name: "QuakeWang".to_string(),
@@ -144,4 +175,8 @@ fn get_epoch() -> usize {
         .duration_since(SystemTime::UNIX_EPOCH)
         .unwrap()
         .as_secs() as usize
+}
+
+fn get_next_id() -> usize {
+    NEXT_ID.fetch_add(1, Ordering::Relaxed)
 }
