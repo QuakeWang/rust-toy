@@ -1,18 +1,24 @@
-use std::net::SocketAddr;
-use std::sync::{Arc, RwLock};
-use std::sync::atomic::{AtomicUsize, Ordering};
-use std::time::SystemTime;
-use axum::{AddExtensionLayer, async_trait, Json, Router, Server};
-use axum::extract::{Extension, FromRequest, RequestParts, TypedHeader};
-use axum::http::StatusCode;
-use axum::response::{Html, IntoResponse, Response};
-use axum::routing::{get, post};
-use headers::Authorization;
-use headers::authorization::Bearer;
-use serde::{Deserialize, Serialize};
-
+use axum::{
+    async_trait,
+    body::{boxed, Full},
+    extract::{Extension, FromRequest, RequestParts, TypedHeader},
+    http::{header, StatusCode, Uri},
+    response::{IntoResponse, Response},
+    routing::{get, post},
+    AddExtensionLayer, Json, Router, Server,
+};
+use headers::{authorization::Bearer, Authorization};
 use jsonwebtoken as jwt;
-use jsonwebtoken::Validation;
+use jwt::Validation;
+use rust_embed::RustEmbed;
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use std::{
+    net::SocketAddr,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc, RwLock,
+    },
+};
 
 const SECRET: &[u8] = b"deadbeef";
 static NEXT_ID: AtomicUsize = AtomicUsize::new(1);
@@ -53,6 +59,35 @@ struct TodoStore {
     items: Arc<RwLock<Vec<Todo>>>,
 }
 
+#[derive(RustEmbed)]
+#[folder = "my-app/build"]
+struct Assets;
+
+struct StaticFile<T>(pub T);
+
+impl<T> IntoResponse for StaticFile<T>
+    where
+        T: Into<String>,
+{
+    fn into_response(self) -> Response {
+        let path = self.0.into();
+        match Assets::get(path.as_str()) {
+            Some(content) => {
+                let body = boxed(Full::from(content.data));
+                let mime = mime_guess::from_path(path.as_str()).first_or_octet_stream();
+                Response::builder()
+                    .header(header::CONTENT_TYPE, mime.as_ref())
+                    .body(body)
+                    .unwrap()
+            }
+            None => Response::builder()
+                .status(StatusCode::NOT_FOUND)
+                .body(boxed(Full::from(format!("File not found: {}", path))))
+                .unwrap(),
+        }
+    }
+}
+
 #[tokio::main]
 async fn main() {
     let store = TodoStore {
@@ -65,11 +100,14 @@ async fn main() {
     };
     let app = Router::new()
         .route("/", get(index_handler))
-        .route("/todos", get(todos_handler)
-            .post(create_todo_handler)
-            .layer(AddExtensionLayer::new(store)))
-        .route("/login", post(login_handler));
-
+        .route(
+            "/todos",
+            get(todos_handler)
+                .post(create_todo_handler)
+                .layer(AddExtensionLayer::new(store)),
+        )
+        .route("/login", post(login_handler))
+        .fallback(get(static_handler));
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
     println!("Listening on http://{}", addr);
 
@@ -79,14 +117,19 @@ async fn main() {
         .unwrap();
 }
 
-async fn index_handler() -> Html<&'static str> {
-    Html("Hello world!")
+async fn index_handler() -> impl IntoResponse {
+    static_handler("/index.html".parse().unwrap()).await
+}
+
+async fn static_handler(uri: Uri) -> impl IntoResponse {
+    let path = uri.path().trim_start_matches('/').to_string();
+    StaticFile(path)
 }
 
 async fn todos_handler(
-    claims: Claims,
-    Extension(store): Extension<TodoStore>)
-    -> Result<Json<Vec<Todo>>, HttpError> {
+    CommonClaim(claims): CommonClaim<Claims>,
+    Extension(store): Extension<TodoStore>,
+) -> Result<Json<Vec<Todo>>, HttpError> {
     let user_id = claims.id;
     match store.items.read() {
         Ok(items) => Ok(Json(
@@ -101,7 +144,7 @@ async fn todos_handler(
 }
 
 async fn create_todo_handler(
-    claims: Claims,
+    CommonClaim(claims): CommonClaim<Claims>,
     Json(todo): Json<CreateTodo>,
     Extension(store): Extension<TodoStore>,
 ) -> Result<StatusCode, HttpError> {
@@ -121,6 +164,7 @@ async fn create_todo_handler(
 }
 
 async fn login_handler(Json(_login): Json<LoginRequest>) -> Json<LoginResponse> {
+    // Skip login info validation
     let claims = Claims {
         id: 1,
         name: "QuakeWang".to_string(),
@@ -131,9 +175,13 @@ async fn login_handler(Json(_login): Json<LoginRequest>) -> Json<LoginResponse> 
     Json(LoginResponse { token })
 }
 
+pub struct CommonClaim<T>(pub T);
+
 #[async_trait]
-impl<B> FromRequest<B> for Claims
-    where B: Send,
+impl<B, T> FromRequest<B> for CommonClaim<T>
+    where
+        B: Send,
+        T: DeserializeOwned + 'static,
 {
     type Rejection = HttpError;
 
@@ -142,14 +190,15 @@ impl<B> FromRequest<B> for Claims
             TypedHeader::<Authorization<Bearer>>::from_request(req)
                 .await
                 .map_err(|_| HttpError::Auth)?;
+
         let key = jwt::DecodingKey::from_secret(SECRET);
-        let token = jwt::decode::<Claims>(bearer.token(), &key, &Validation::default())
-            .map_err(|e| {
+        let token =
+            jwt::decode::<T>(bearer.token(), &key, &Validation::default()).map_err(|e| {
                 println!("{:?}", e);
                 HttpError::Auth
             })?;
 
-        Ok(token.claims)
+        Ok(CommonClaim(token.claims))
     }
 }
 
@@ -160,7 +209,7 @@ pub enum HttpError {
 }
 
 impl IntoResponse for HttpError {
-    fn into_response(self) -> Response {
+    fn into_response(self) -> axum::response::Response {
         let (code, msg) = match self {
             HttpError::Auth => (StatusCode::UNAUTHORIZED, "Unauthorized"),
             HttpError::Internal => (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error"),

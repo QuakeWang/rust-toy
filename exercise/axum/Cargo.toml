@@ -9,5 +9,7 @@ edition = "2021"
 axum = { version = "0.4", features = ["headers"] }
 headers = "0.3"
 jsonwebtoken = "8"
+mime_guess = "2"
+rust-embed = "6"
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["full"] }
