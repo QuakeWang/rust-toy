@@ -2,8 +2,12 @@ use std::net::SocketAddr;
 use axum::{Json, Router, Server};
 use axum::http::StatusCode;
 use axum::response::Html;
-use axum::routing::get;
+use axum::routing::{get, post};
 use serde::{Deserialize, Serialize};
+
+use jsonwebtoken as jwt;
+
+const SECRET: &[u8] = b"deadbeef";
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Todo {
@@ -18,12 +22,30 @@ pub struct CreateTodo {
     pub title: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct LoginRequest {
+    email: String,
+    password: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct LoginResponse {
+    token: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Claims {
+    id: usize,
+    name: String,
+}
+
 #[tokio::main]
 async fn main() {
     let app = Router::new()
         .route("/", get(index_handler))
         .route("/todos", get(todos_handler)
-            .post(create_todos_handler));
+            .post(create_todos_handler))
+        .route("/login", post(login_handler));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
     println!("Listening on http://{}", addr);
@@ -57,4 +79,14 @@ async fn todos_handler() -> Json<Vec<Todo>> {
 
 async fn create_todos_handler(Json(_todo): Json<CreateTodo>) -> StatusCode {
     StatusCode::CREATED
+}
+
+async fn login_handler(Json(login): Json<LoginRequest>) -> Json<LoginResponse> {
+    let claims = Claims {
+        id: 1,
+        name: "QuakeWang".to_string(),
+    };
+    let key = jwt::EncodingKey::from_secret(SECRET);
+    let token = jwt::encode(&jwt::Header::default(), &claims, &key).unwrap();
+    Json(LoginResponse { token })
 }
