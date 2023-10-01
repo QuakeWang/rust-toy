@@ -18,6 +18,7 @@ members = [
     "exercise/httpie",
     "exercise/metro_encode",
     "exercise/prost-example",
+    "exercise/axum",
 
     "advanced/generics",
     "advanced/trait_objects"
