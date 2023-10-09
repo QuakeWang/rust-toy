@@ -13,6 +13,7 @@ members = [
     "grammar/generic",
     "grammar/trait-demo",
     "grammar/smart-pointers",
+    "grammar/data_structure",
 
     "exercise/scrape_url",
     "exercise/httpie",
