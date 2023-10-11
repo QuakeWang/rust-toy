@@ -27,6 +27,18 @@ path = "src/slice5.rs"
 name = "boxed"
 path = "src/boxed.rs"
 
+[[bin]]
+name = "hashmap1"
+path = "src/hashmap1.rs"
+
+[[bin]]
+name = "hashmap2"
+path = "src/hashmap2.rs"
+
+[[bin]]
+name = "btreemap"
+path = "src/btreemap.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
