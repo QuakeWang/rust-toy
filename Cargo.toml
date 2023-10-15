@@ -23,5 +23,6 @@ members = [
     "exercise/axum",
 
     "advanced/generics",
-    "advanced/trait_objects"
+    "advanced/trait_objects",
+    "advanced/concurrency"
 ]
