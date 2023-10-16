@@ -21,6 +21,7 @@ members = [
     "exercise/metro_encode",
     "exercise/prost-example",
     "exercise/axum",
+    "exercise/con_utils",
 
     "advanced/generics",
     "advanced/trait_objects",
