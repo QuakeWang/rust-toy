@@ -66,8 +66,8 @@ struct Assets;
 struct StaticFile<T>(pub T);
 
 impl<T> IntoResponse for StaticFile<T>
-    where
-        T: Into<String>,
+where
+    T: Into<String>,
 {
     fn into_response(self) -> Response {
         let path = self.0.into();
@@ -179,9 +179,9 @@ pub struct CommonClaim<T>(pub T);
 
 #[async_trait]
 impl<B, T> FromRequest<B> for CommonClaim<T>
-    where
-        B: Send,
-        T: DeserializeOwned + 'static,
+where
+    B: Send,
+    T: DeserializeOwned + 'static,
 {
     type Rejection = HttpError;
 

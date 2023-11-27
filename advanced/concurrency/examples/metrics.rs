@@ -1,10 +1,19 @@
 use lazy_static::lazy_static;
-use std::{ collections::HashMap, sync::atomic::{ AtomicUsize, Ordering } };
+use std::{
+    collections::HashMap,
+    sync::atomic::{AtomicUsize, Ordering},
+};
 
 lazy_static! {
-    pub(crate) static ref METRICS: Metrics = Metrics::new(
-        &["topics", "clients", "peers", "broadcasts", "servers", "states", "subscribers"]
-    );
+    pub(crate) static ref METRICS: Metrics = Metrics::new(&[
+        "topics",
+        "clients",
+        "peers",
+        "broadcasts",
+        "servers",
+        "states",
+        "subscribers"
+    ]);
 }
 
 // server statistics

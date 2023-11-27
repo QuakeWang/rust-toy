@@ -1,7 +1,10 @@
-use anyhow::{ anyhow, Result };
+use anyhow::{anyhow, Result};
 use std::{
     collections::VecDeque,
-    sync::{ atomic::{ AtomicUsize, Ordering }, Arc, Condvar, Mutex },
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc, Condvar, Mutex,
+    },
 };
 
 /// Sender
@@ -121,7 +124,9 @@ impl<T> Receiver<T> {
                 None => {
                     // 当 Condvar 被唤醒后会返回 MutexGuard，我们可以 loop 回去拿数据
                     // 这是为什么 Condvar 要在 loop 里使用
-                    inner = self.shared.available
+                    inner = self
+                        .shared
+                        .available
                         .wait(inner)
                         .map_err(|_| anyhow!("lock poisoned"))?;
                 }
@@ -166,7 +171,7 @@ pub fn unbounded<T>() -> (Sender<T>, Receiver<T>) {
 
 #[cfg(test)]
 mod tests {
-    use std::{ thread, time::Duration };
+    use std::{thread, time::Duration};
 
     use super::*;
 
@@ -222,8 +227,7 @@ mod tests {
                 s.send(i).unwrap();
             }
             // 防止所有 sender 都离开
-            loop {
-            }
+            loop {}
         });
 
         // 1ms 足够让生产者发完 100 个消息，消费者消费完 100 个消息并阻塞
@@ -250,13 +254,12 @@ mod tests {
 
         // sender 即用即抛
         for mut sender in senders {
-            thread
-                ::spawn(move || {
-                    sender.send("hello").unwrap();
-                    // sender 在此被丢弃
-                })
-                .join()
-                .unwrap();
+            thread::spawn(move || {
+                sender.send("hello").unwrap();
+                // sender 在此被丢弃
+            })
+            .join()
+            .unwrap();
         }
 
         // 虽然没有 sender 了，接收者依然可以接受已经在队列里的数据

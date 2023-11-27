@@ -41,7 +41,9 @@ impl Handler<InMsg> for DummyActor {
 async fn main() -> Result<()> {
     let addr = DummyActor.start();
     let res = addr.send(InMsg::Add((21, 23))).await?;
-    let res1 = addr.send(InMsg::Concat(("hello, ".into(), "world".into()))).await?;
+    let res1 = addr
+        .send(InMsg::Concat(("hello, ".into(), "world".into())))
+        .await?;
 
     println!("res: {:?}, res1: {:?}", res, res1);
 

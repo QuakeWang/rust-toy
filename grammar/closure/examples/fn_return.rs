@@ -9,7 +9,8 @@ fn main() {
 }
 
 fn curry<T>(x: T) -> impl Fn(T) -> T
-    where T: Mul<Output=T> + Copy,
+where
+    T: Mul<Output = T> + Copy,
 {
     move |y| x * y
 }
