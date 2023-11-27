@@ -15,6 +15,7 @@ members = [
     "grammar/smart-pointers",
     "grammar/data_structure",
     "grammar/closure",
+    "grammar/async-demo",
 
     "exercise/scrape_url",
     "exercise/httpie",
