@@ -1,6 +1,6 @@
 async fn my_background_op(id: u32) -> String {
     let s = format!("Starting background task {}.", id);
-    println!("{}",s);
+    println!("{}", s);
     s
 }
 

@@ -8,7 +8,7 @@ async fn main() {
     let mut interval = time::interval(Duration::from_millis(10));
     // Execute the interval timer
     interval.tick().await;
-    // After 10ms 
+    // After 10ms
     interval.tick().await;
     // After 20ms
     interval.tick().await;

@@ -27,5 +27,7 @@ members = [
     "advanced/generics",
     "advanced/trait_objects",
     "advanced/concurrency",
-    "advanced/network"
+    
+    "algorithms/array"
+
 ]
