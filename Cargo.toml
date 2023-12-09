@@ -16,6 +16,7 @@ members = [
     "grammar/data_structure",
     "grammar/closure",
     "grammar/async-demo",
+    "grammar/macro-demo",
 
     "exercise/scrape_url",
     "exercise/httpie",
