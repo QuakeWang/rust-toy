@@ -11,6 +11,14 @@ path = "src/axum01_start.rs"
 name = "axum02_get"
 path = "src/axum02_get.rs"
 
+[[bin]]
+name = "axum03_post"
+path = "src/axum03_post.rs"
+
+
+[[bin]]
+name = "axum04_json"
+path = "src/axum04_json.rs"
 
 [dependencies]
 axum = "0.7"
