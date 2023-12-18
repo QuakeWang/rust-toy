@@ -1,12 +1,8 @@
-use axum::{
-    extract::Query,
-    response::{Html, IntoResponse},
-    routing::get,
-    Router,
-};
+use axum::{ extract::Query, response::{ Html, IntoResponse }, routing::get, Router };
 use serde::Deserialize;
 use tower_http::trace::TraceLayer;
 
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 struct InputParams {
     foo: i32,
@@ -24,9 +20,7 @@ async fn main() {
         .route("/query", get(query))
         .layer(TraceLayer::new_for_http());
 
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3031")
-        .await
-        .unwrap();
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3031").await.unwrap();
 
     println!("listener on: {}", listener.local_addr().unwrap());
 

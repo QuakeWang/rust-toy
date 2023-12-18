@@ -12,7 +12,7 @@ impl MyArray {
     }
 
     fn find(&self, index: usize) -> i32 {
-        if index > self.count as usize {
+        if index > (self.count as usize) {
             return -1;
         }
 
@@ -45,7 +45,7 @@ impl MyArray {
     }
 
     fn remove(&mut self, index: usize) -> i32 {
-        if index >= self.count as usize {
+        if index >= (self.count as usize) {
             return -1;
         }
 
