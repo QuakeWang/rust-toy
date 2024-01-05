@@ -29,7 +29,8 @@ members = [
     "advanced/trait_objects",
     "advanced/concurrency",
     "advanced/axum-start",
-    
-    "algorithms/array"
+
+    "algorithms/array",
+    "algorithms/sort",
 
 ]
