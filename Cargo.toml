@@ -32,5 +32,6 @@ members = [
 
     "algorithms/array",
     "algorithms/sort", 
+    "algorithms/string-algo", 
 
 ]

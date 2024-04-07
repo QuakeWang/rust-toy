@@ -1,0 +1,10 @@
+[package]
+name = "string-algo"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "bf"
+path = "src/bf.rs"
+
+[dependencies]

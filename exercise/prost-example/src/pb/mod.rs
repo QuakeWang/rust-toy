@@ -39,7 +39,10 @@ mod tests {
             "Sam".to_string(),
             01,
             "sam@google.com".to_string(),
-            vec![PhoneNumber::new("123-456-7890".to_string(), PhoneType::Home)],
+            vec![PhoneNumber::new(
+                "123-456-7890".to_string(),
+                PhoneType::Home,
+            )],
         );
         assert_eq!(person.name, "Sam");
         assert_eq!(person.id, 01);
