@@ -1,4 +1,9 @@
-use axum::{ response::{ IntoResponse, Html }, http::StatusCode, Router, routing::get };
+use axum::{
+    http::StatusCode,
+    response::{Html, IntoResponse},
+    routing::get,
+    Router,
+};
 
 #[tokio::main]
 async fn main() {
@@ -6,7 +11,9 @@ async fn main() {
 
     let app = Router::new().route("/", get(handler)).fallback(handler_404);
 
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3034").await.unwrap();
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3034")
+        .await
+        .unwrap();
 
     tracing::debug!("listening on {}", listener.local_addr().unwrap());
 

@@ -1,10 +1,10 @@
 use axum::{
-    extract::{ Form, Json, Query },
-    response::{ Html, IntoResponse },
-    routing::{ get, post },
+    extract::{Form, Json, Query},
+    response::{Html, IntoResponse},
+    routing::{get, post},
     Router,
 };
-use serde::{ Serialize, Deserialize };
+use serde::{Deserialize, Serialize};
 use serde_json::json;
 use tower_http::trace::TraceLayer;
 
@@ -29,7 +29,9 @@ async fn main() {
         .layer(TraceLayer::new_for_http());
 
     // run it
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3003").await.unwrap();
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3003")
+        .await
+        .unwrap();
     tracing::debug!("listening on {}", listener.local_addr().unwrap());
     axum::serve(listener, app).await.unwrap();
 }
@@ -65,7 +67,7 @@ async fn show_form() -> Html<&'static str> {
                 </form>
             </body>
         </html>
-        "#
+        "#,
     )
 }
 

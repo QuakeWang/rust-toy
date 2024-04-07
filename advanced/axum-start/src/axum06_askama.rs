@@ -1,10 +1,10 @@
 use askama::Template;
 use axum::{
-    response::{ Html, IntoResponse },
-    Router,
-    routing::get,
-    http::StatusCode,
     extract::Path,
+    http::StatusCode,
+    response::{Html, IntoResponse},
+    routing::get,
+    Router,
 };
 use tower_http::trace::TraceLayer;
 
@@ -22,7 +22,9 @@ async fn main() {
         .layer(TraceLayer::new_for_http())
         .fallback(handler_404);
 
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3035").await.unwrap();
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3035")
+        .await
+        .unwrap();
 
     axum::serve(listener, app).await.unwrap();
 }
